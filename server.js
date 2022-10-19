@@ -1,19 +1,24 @@
 const path = require("path");
 const express = require("express");
+const http = require("http");
+
 const bodyParser = require("body-parser");
 const session = require("express-session");
 const cors = require("cors");
 const errorHandler = require("errorhandler");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
+// const { server, app, express } = require("./socket");
 
 const port = 8000;
+
+const app = express();
+const server = http.createServer(app);
+const { Server } = require("socket.io");
 
 mongoose.promise = global.Promise;
 
 const isProduction = process.env.NODE_ENV === "production";
-
-const app = express();
 
 app.use(cors());
 app.use(require("morgan")("dev"));
@@ -29,6 +34,8 @@ app.use(
     saveUninitialized: false,
   })
 );
+
+app.use("/uploads", express.static("uploads"));
 
 if (!isProduction) {
   app.use(errorHandler());
@@ -74,6 +81,21 @@ app.use((err, req, res) => {
   });
 });
 
-const server = app.listen(port, () =>
+server.listen(port, () =>
   console.log(`Server started on http://localhost:${port}`)
 );
+
+const io = new Server(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    credentials: true,
+  },
+});
+
+const { like } = require("./src/newsfeed/models/post.model");
+
+io.on("connection", (socket) => {
+  socket.on("like", (data) => {
+    like(data.post_id, data.profile_id);
+  });
+});

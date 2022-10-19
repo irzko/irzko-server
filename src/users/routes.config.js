@@ -7,8 +7,8 @@ const PermissionMiddleware = require("../auth/middlewares/permission.middleware"
 router.post("/register", [UsersController.insert]);
 
 router.get("/:userId", [
-  ValidationMiddleware.validJWTNeeded,
-  PermissionMiddleware.minimumPermissionLevelRequired(1),
+  // ValidationMiddleware.validJWTNeeded,
+  // PermissionMiddleware.minimumPermissionLevelRequired(1),
   UsersController.getById,
 ]);
 
