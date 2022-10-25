@@ -1,4 +1,4 @@
-const PostsModel = require("../models/post.model");
+const BlogsModel = require("../models/blogs.model");
 const multer = require("multer");
 const { access, constants } = require("fs");
 
@@ -24,44 +24,14 @@ exports.insert = (req, res, next) => {
         const { body } = req;
         if (err) {
           console.error(err);
-          body.image = "";
+          body.thumbnail = "";
         } else {
-          body.image = filename;
+          body.thumbnail = filename;
         }
-        PostsModel.createPost(body).then((result) => {
+        BlogsModel.createBlog(body).then((result) => {
           res.status(201).send("Created post successfully!");
         });
       });
     }
   });
-
-  // await
-};
-
-exports.getAll = (req, res, next) => {
-  PostsModel.findAll().then((result) => {
-    res.send(result);
-  });
-};
-
-exports.getById = async (req, res, next) => {
-  const result = await PostsModel.findById(req.params.IdPost);
-  res.send(result);
-};
-
-exports.like = (req, res, next) => {
-  const { body } = req;
-  PostsModel.like(body._id, body.profile_id);
-  res.status(200).send("OK");
-};
-
-exports.unlike = (req, res, next) => {
-  const { body } = req;
-  PostsModel.unlike(body._id, body.profile_id);
-  res.status(200).send("OK");
-};
-
-exports.deletePost = (req, res, next) => {
-  PostsModel.delete(req.body._id);
-  res.status(200).send("OK");
 };

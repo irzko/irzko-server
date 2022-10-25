@@ -30,8 +30,6 @@ postsSchema.methods.toJSON = function () {
 const postsModel = mongoose.model("newsfeeds", postsSchema);
 
 exports.createPost = (postData) => {
-  // const image = postData.image;
-  // delete postData.image;
   const post = new postsModel(postData);
   return post.save();
 };
@@ -44,6 +42,10 @@ exports.findById = async (params) => {
   return await postsModel.find({ author_id: params });
 };
 
+exports.findPostById = async (params) => {
+  return await postsModel.findById(params);
+};
+
 exports.like = async (id, profile_id) => {
   const doc = await postsModel.findById(id);
   doc.like.push(profile_id);
@@ -54,4 +56,8 @@ exports.unlike = async (id, profile_id) => {
   const doc = await postsModel.findById(id);
   doc.like = doc.like.filter((item) => item !== profile_id);
   doc.save();
+};
+
+exports.delete = async (id) => {
+  await postsModel.findByIdAndDelete(id);
 };

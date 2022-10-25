@@ -41,11 +41,9 @@ exports.createUser = (userData) => {
   return user.save();
 };
 
-exports.findById = (id) => {
-  return userModel.findById(id).then((result) => {
-    result = result.toJSON();
-    delete result._id;
-    delete result.__v;
-    return result;
-  });
+exports.findById = async (id) => {
+  const result = await userModel.findById(id);
+  delete result._id;
+  delete result.__v;
+  return result;
 };

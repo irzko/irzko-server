@@ -35,7 +35,7 @@ app.use(
   })
 );
 
-app.use("/uploads", express.static("uploads"));
+app.use("/upload", express.static("upload"));
 
 if (!isProduction) {
   app.use(errorHandler());
@@ -98,4 +98,6 @@ io.on("connection", (socket) => {
   socket.on("like", (data) => {
     like(data.post_id, data.profile_id);
   });
+
+  // socket.emit("get_post", ()
 });
