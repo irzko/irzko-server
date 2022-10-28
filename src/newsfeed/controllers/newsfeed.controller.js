@@ -65,3 +65,9 @@ exports.deletePost = (req, res, next) => {
   PostsModel.delete(req.body._id);
   res.status(200).send("OK");
 };
+
+exports.comment = (req, res, next) => {
+  const { body } = req;
+  PostsModel.comment(body._id, body.profile_id, body.comment);
+  res.status(200).send("OK");
+};

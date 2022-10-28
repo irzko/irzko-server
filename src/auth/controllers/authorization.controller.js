@@ -19,6 +19,8 @@ exports.login = (req, res) => {
       name: req.body.name,
       accessToken: token,
       refreshToken: refresh_token,
+      permissionLevel: req.body.permissionLevel
+      
     });
   } catch (err) {
     res.status(500).send({ errors: err });

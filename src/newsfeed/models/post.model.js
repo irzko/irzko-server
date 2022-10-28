@@ -9,7 +9,7 @@ const postsSchema = new Schema(
     image: String,
     author_id: String,
     like: Array,
-    comment: Object,
+    comment: Array,
   },
   { timestamps: true }
 );
@@ -61,3 +61,9 @@ exports.unlike = async (id, profile_id) => {
 exports.delete = async (id) => {
   await postsModel.findByIdAndDelete(id);
 };
+
+exports.comment = async (id_post, profile_id, comment) => {
+  const doc = await postsModel.findById(id_post);
+  doc.comment.push({profile_id:profile_id, comment:comment});
+  doc.save();
+}

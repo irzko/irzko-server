@@ -10,4 +10,5 @@ router.get("/:IdPost", [NewsFeedController.getById]);
 router.post("/like", [NewsFeedController.like]);
 router.post("/unlike", [NewsFeedController.unlike]);
 router.post("/delete", [NewsFeedController.deletePost]);
+router.post("/comment", [NewsFeedController.comment]);
 module.exports = router;

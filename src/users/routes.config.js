@@ -12,4 +12,9 @@ router.get("/:userId", [
   UsersController.getById,
 ]);
 
+router.post("/update-avatar", [UsersController.changeAvt]);
+router.post("/update-name", [UsersController.changeName]);
+router.post("/update-email", [UsersController.changeEmail]);
+router.post("/get-all-user", [UsersController.getAllUser]);
+
 module.exports = router;
