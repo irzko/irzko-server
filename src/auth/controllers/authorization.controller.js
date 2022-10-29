@@ -16,11 +16,8 @@ exports.login = (req, res) => {
     let refresh_token = b.toString("base64");
     res.status(201).send({
       _id: req.body.userId,
-      name: req.body.name,
       accessToken: token,
       refreshToken: refresh_token,
-      permissionLevel: req.body.permissionLevel
-      
     });
   } catch (err) {
     res.status(500).send({ errors: err });

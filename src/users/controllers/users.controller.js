@@ -18,7 +18,7 @@ exports.insert = (req, res, next) => {
 
 exports.getById = (req, res) => {
   UserModel.findById(req.params.userId).then((result) => {
-    // delete result.password;
+    delete result.password;
     res.status(200).send(result);
   });
 };
@@ -65,7 +65,7 @@ exports.changeEmail = async (req, res) => {
   res.status(201).send("Change email successfully!");
 };
 
-exports.getAllUser = (req, res) => {
-  const users = UserModel.getAll();
-  res.status(201).send(users);
+exports.getAllUser = async (req, res) => {
+  const users = await UserModel.getAll();
+  return res.status(201).send(users);
 };
