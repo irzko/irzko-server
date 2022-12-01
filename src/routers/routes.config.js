@@ -7,5 +7,6 @@ router.use("/blogs", require("../blogs/routes.config"));
 router.use("/newsfeed", require("../newsfeed/routes.config"));
 router.use("/image", require("../images/routes.config"));
 router.use("/upload", require("../upload/routes"));
+router.use("/search", require("../search/routes.config"));
 
 module.exports = router;

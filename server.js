@@ -92,12 +92,14 @@ const io = new Server(server, {
   },
 });
 
-const { like } = require("./src/newsfeed/models/post.model");
+const { like, findAll } = require("./src/newsfeed/models/post.model");
 
-io.on("connection", (socket) => {
+io.on("connection", async (socket) => {
   socket.on("like", (data) => {
     like(data.post_id, data.profile_id);
   });
 
-  // socket.emit("get_post", ()
+  const post = await findAll();
+  // console.log(post);
+  io.sockets.emit("get_post", post);
 });

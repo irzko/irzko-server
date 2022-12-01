@@ -7,6 +7,7 @@ const blogsSchema = new Schema(
     title: String,
     thumbnail: String,
     content: String,
+    view: Number,
     author_id: String,
   },
   { timestamps: true }
@@ -18,6 +19,7 @@ blogsSchema.methods.toJSON = function () {
     title: this.title,
     thumbnail: this.thumbnail,
     content: this.content,
+    view: this.view,
     createdAt: this.createdAt,
     updatedAt: this.updatedAt,
   };
@@ -29,12 +31,19 @@ exports.findAll = async () => {
   return await blogsModel.find();
 };
 
+exports.search = async (keyword) => {
+  return await blogsModel.find({ title: { $regex: `${keyword}` } });
+};
+
 exports.createBlog = (postData) => {
+  postData.view = 0;
   const post = new blogsModel(postData);
   return post.save();
 };
 
 exports.findById = async (id) => {
-  return await blogsModel.findById(id);
+  const blog = await blogsModel.findById(id);
+  blog.view++;
+  blog.save();
+  return blog;
 };
-
